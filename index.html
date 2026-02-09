@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Love Story | For Indhu ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Backgrounds -->
+    <div id="stars-container"></div>
+    <div id="particles-js"></div>
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Audio (Hidden, triggered by user interaction) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3" type="audio/mpeg">
+    </audio>
+
+    <main id="main-container">
+        <!-- Opening Page -->
+        <section id="opening" class="active">
+            <div class="content">
+                <h1 id="opening-text"></h1>
+                <button id="start-btn" class="glow-btn">✨ Start the Journey</button>
+            </div>
+        </section>
+
+        <!-- Section 1: Bug Fixer -->
+        <section id="bug-fixer">
+            <div class="content">
+                <h2 class="typewriter-header" data-text="When life gives me errors..."></h2>
+                <div class="code-editor glass">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="file-name">life.js</span>
+                    </div>
+                    <div class="code-content">
+                        <pre><code><span class="keyword">const</span> <span class="variable">status</span> = <span class="string">"Searching..."</span>;
+<span class="keyword">let</span> <span class="variable">happiness</span> = <span class="keyword">null</span>;
+
+<span class="comment">// Error: Missing Happiness</span>
+<span class="keyword">throw new</span> <span class="class">Error</span>(<span class="string">"Happiness not found!"</span>);</code></pre>
+                    </div>
+                </div>
+                <div class="interaction-area">
+                    <button id="fix-bug-btn" class="action-btn red">🐞 Fix Bug</button>
+                    <div id="bug-fixed-msg" class="hidden">
+                        <h3>Bug Fixed: Indhu Found ❤️</h3>
+                        <button class="next-btn" onclick="goToSection('coffee')">Continue...</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Coffee & Conversations -->
+        <section id="coffee">
+            <div class="content">
+                <div class="cafe-vibe">
+                    <h2>Every conversation with you... <br><span>feels like home.</span></h2>
+                    <div class="coffee-buttons">
+                        <button class="surprise-btn"
+                            data-msg="You are the semicolon to my statements. My life would never be complete without you.">☕
+                            Click Me</button>
+                        <button class="surprise-btn"
+                            data-msg="Your smile is the most beautiful UI I've ever seen. No CSS can replicate its glow.">💬
+                            Click Me Too</button>
+                        <button class="surprise-btn"
+                            data-msg="You're my favorite human, my peace, and my best 'Bug Fixer' ever!">❤️ One
+                            More</button>
+                    </div>
+                    <div id="coffee-msg-box" class="glass hidden">
+                        <p id="coffee-msg"></p>
+                    </div>
+                    <button id="coffee-next-btn" class="next-btn hidden" onclick="goToSection('why-you')">Ready for the
+                        Final Surprise?</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Why You? -->
+        <section id="why-you">
+            <div class="content">
+                <div class="reasons-container">
+                    <div class="reason" data-delay="0">You understand me.</div>
+                    <div class="reason" data-delay="1000">You support my dreams.</div>
+                    <div class="reason" data-delay="2000">You make my world brighter.</div>
+                    <div class="reason" data-delay="3000">You are my peace.</div>
+                </div>
+                <button id="open-heart-btn" class="glow-btn hidden" onclick="goToSection('final')">💌 Open My
+                    Heart</button>
+            </div>
+        </section>
+
+        <!-- Final Section: Love Letter -->
+        <section id="final">
+            <div class="content">
+                <div class="letter-container">
+                    <div class="letter-wrapper glass">
+                        <div class="letter-paper">
+                            <h2>Dear Indhu ❤️</h2>
+                            <div id="letter-text"></div>
+                            <div class="proposal-actions hidden">
+                                <h3 class="proposal-text">Indhu... <br>Will you be mine forever? 💍❤️</h3>
+                                <div class="btn-group">
+                                    <button id="yes-btn" class="celebrate-btn">💖 YES</button>
+                                    <button id="no-btn" class="runaway-btn">💔 No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Screen -->
+        <section id="success">
+            <div class="content">
+                <div class="victory-message">
+                    <h1>She Said Yes! ❤️</h1>
+                    <p>My life's most beautiful code is now complete.</p>
+                    <div class="heart-explosion">❤️</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
