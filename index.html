@@ -30,20 +30,38 @@
         <section id="opening" class="active">
             <div class="content">
                 <h1 id="opening-text"></h1>
-                <button id="start-btn" class="glow-btn">✨ Start the Journey</button>
+                <button id="start-btn" class="glow-btn">✨ Baby, my heart waits for you.</button>
+            </div>
+        </section>
+
+        <!-- Password Gate -->
+        <section id="password-gate">
+            <div class="content">
+                <div class="password-box glass">
+                    <h2 class="typewriter-header" data-text="A Secret Just for You..."></h2>
+                    <p>Enter our special code to continue...</p>
+                    <div class="input-group">
+                        <input type="password" id="password-input" placeholder="Enter password..." autocomplete="off">
+                        <button id="password-sub-btn" class="action-btn">Unlock ❤️</button>
+                    </div>
+                    <div id="password-error" class="error-msg hidden"></div>
+                    <div id="password-success" class="success-msg hidden"></div>
+                </div>
             </div>
         </section>
 
         <!-- Section 1: Bug Fixer -->
         <section id="bug-fixer">
             <div class="content">
-                <h2 class="typewriter-header" data-text="When life gives me errors..."></h2>
+                <h2 class="typewriter-header"
+                    data-text="“When life writes errors in my story, you are the one who rewrites it with love.” ❤️">
+                </h2>
                 <div class="code-editor glass">
                     <div class="code-header">
                         <span class="dot red"></span>
                         <span class="dot yellow"></span>
                         <span class="dot green"></span>
-                        <span class="file-name">life.js</span>
+                        <span class="file-name">heart_debug.js</span>
                     </div>
                     <div class="code-content">
                         <pre><code><span class="keyword">const</span> <span class="variable">status</span> = <span class="string">"Searching..."</span>;
@@ -57,46 +75,128 @@
                     <button id="fix-bug-btn" class="action-btn red">🐞 Fix Bug</button>
                     <div id="bug-fixed-msg" class="hidden">
                         <h3>Bug Fixed: Indhu Found ❤️</h3>
-                        <button class="next-btn" onclick="goToSection('coffee')">Continue...</button>
+                        <button class="next-btn" onclick="goToSection('coffee')">Continue the Journey...</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Coffee & Conversations -->
+        <!-- Section 2: Dreamy Anti-Gravity Scene -->
+        <section id="dreamy-scene">
+            <div id="petal-container"></div>
+            <div class="content">
+                <h2 class="typewriter-header" data-text="A Dreamy World of Anti-Gravity..."></h2>
+                <div id="interaction-counter" class="glass hidden">Magic Gathered: <span>0</span></div>
+
+                <div id="runaway-container" class="anti-gravity">
+                    <button id="runaway-no-btn" class="action-btn red">No?</button>
+                </div>
+
+                <div id="love-note-display" class="glass hidden">
+                    <p id="note-text"></p>
+                </div>
+
+                <button id="dreamy-next-btn" class="next-btn hidden" onclick="goToSection('coffee')">Continue to Magic
+                    Moments...</button>
+            </div>
+        </section>
+
+
+
+        <!-- Section 3: Magic Moments -->
         <section id="coffee">
             <div class="content">
-                <div class="cafe-vibe">
-                    <h2>Every conversation with you... <br><span>feels like home.</span></h2>
+                <div class="magic-vibe">
+                    <div id="magic-particles"></div>
+                    <h2 class="magic-header">Every moment with you… <br><span>feels like magic ✨</span></h2>
+                    <p class="magic-subtext">Tap a heart and feel my love. ❤️</p>
                     <div class="coffee-buttons">
-                        <button class="surprise-btn"
-                            data-msg="You are the semicolon to my statements. My life would never be complete without you.">☕
-                            Click Me</button>
-                        <button class="surprise-btn"
-                            data-msg="Your smile is the most beautiful UI I've ever seen. No CSS can replicate its glow.">💬
-                            Click Me Too</button>
-                        <button class="surprise-btn"
-                            data-msg="You're my favorite human, my peace, and my best 'Bug Fixer' ever!">❤️ One
-                            More</button>
+                        <button class="surprise-btn" data-type="shimmer" data-msg="Beloved Soul 🌙">☕ Click Me</button>
+                        <button class="surprise-btn" data-type="pulse" data-msg="My Heartbeat 💖">💬 Click Me
+                            Too</button>
+                        <button class="surprise-btn" data-type="glow" data-msg="Forever Yours 🌸">❤️ One More</button>
                     </div>
                     <div id="coffee-msg-box" class="glass hidden">
                         <p id="coffee-msg"></p>
                     </div>
-                    <button id="coffee-next-btn" class="next-btn hidden" onclick="goToSection('why-you')">Ready for the
-                        Final Surprise?</button>
+                    <button id="coffee-next-btn" class="next-btn hidden" onclick="goToSection('memory-timeline')">Ready
+                        for the Journey? ✨</button>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Why You? -->
-        <section id="why-you">
+        <!-- Emotional Memory Timeline -->
+        <section id="memory-timeline">
             <div class="content">
-                <div class="reasons-container">
-                    <div class="reason" data-delay="0">You understand me.</div>
-                    <div class="reason" data-delay="1000">You support my dreams.</div>
-                    <div class="reason" data-delay="2000">You make my world brighter.</div>
-                    <div class="reason" data-delay="3000">You are my peace.</div>
+                <div class="timeline-wrapper">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-moment" data-moment="1">
+                        <div class="moment-heart"><i class="fas fa-heart"></i></div>
+                        <div class="moment-card glass">
+                            <h3>🌸 The Day We First Talked</h3>
+                            <p>The moment you said “Hello,” something quietly shifted inside me.<br>
+                                What felt like a simple conversation became the beginning of the most beautiful chapter
+                                of
+                                my life.<br>
+                                From that day on, nothing felt ordinary anymore — because you were in it.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-moment" data-moment="2">
+                        <div class="moment-heart"><i class="fas fa-heart"></i></div>
+                        <div class="moment-card glass">
+                            <h3>✨ The First Laugh</h3>
+                            <p>That first real laugh of yours…<br>
+                                bright, pure, and completely unforgettable.<br>
+                                In that sound, I found comfort, joy, and a kind of happiness I didn’t know I was
+                                missing.<br>
+                                It was the moment my world felt lighter — because you were smiling in it.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-moment" data-moment="3">
+                        <div class="moment-heart"><i class="fas fa-heart"></i></div>
+                        <div class="moment-card glass">
+                            <h3>🌧️ The First Fight</h3>
+                            <p>It wasn’t easy.<br>
+                                There were misunderstandings, silence, and heavy hearts.<br>
+                                But even in those difficult moments, one thing never changed —<br>
+                                I still chose you.<br>
+                                And I would choose you again.<br>
+                                It showed me that love isn’t about perfection… it’s about staying.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-moment" data-moment="4">
+                        <div class="moment-heart"><i class="fas fa-heart"></i></div>
+                        <div class="moment-card glass">
+                            <h3>💖 The Moment I Knew…</h3>
+                            <p>It wasn’t one dramatic moment.<br>
+                                It was in the little things —<br>
+                                the way you talk,<br>
+                                the way you care,<br>
+                                the way you just exist so beautifully.<br><br>
+                                Somewhere between a million small memories,<br>
+                                I realized something quietly but surely —<br>
+                                I don’t want a life that doesn’t have you in it.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-footer">
+                        <button class="glow-btn" onclick="goToSection('heart-game')">Catch My Heart ❤️</button>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Catch the Heart Game -->
+        <section id="heart-game">
+            <div class="content">
+                <h2 class="typewriter-header" data-text="Catch my heart if you can! ❤️"></h2>
+                <p>Catch 10 hearts to unlock my final message...</p>
+                <div id="heart-game-arena"></div>
+                <div id="game-score">Hearts Caught: 0</div>
                 <button id="open-heart-btn" class="glow-btn hidden" onclick="goToSection('final')">💌 Open My
                     Heart</button>
             </div>
@@ -108,7 +208,7 @@
                 <div class="letter-container">
                     <div class="letter-wrapper glass">
                         <div class="letter-paper">
-                            <h2>Dear Indhu ❤️</h2>
+                            <h2>💌 Dear Indhu ❤️</h2>
                             <div id="letter-text"></div>
                             <div class="proposal-actions hidden">
                                 <h3 class="proposal-text">Indhu... <br>Will you be mine forever? 💍❤️</h3>
@@ -123,14 +223,54 @@
             </div>
         </section>
 
-        <!-- Success Screen -->
+        <!-- Final Success Section -->
         <section id="success">
             <div class="content">
-                <div class="victory-message">
-                    <h1>She Said Yes! ❤️</h1>
-                    <p>My life's most beautiful code is now complete.</p>
-                    <div class="heart-explosion">❤️</div>
+                <h1>YEEESS! ❤️💍</h1>
+                <p>You've made me the happiest person alive, Indhu!</p>
+                <div class="success-actions">
+                    <p class="memories-prompt">Do you want to see our beautiful memories?</p>
+                    <button class="next-btn" onclick="showMemoriesGallery()">Show me everything ❤️</button>
                 </div>
+                <div id="fireworks-container"></div>
+            </div>
+        </section>
+
+        <!-- Memory Gallery Section -->
+        <section id="memory-gallery-section">
+            <div class="content">
+                <h2 class="typewriter-header" data-text="Our Beautiful Journey Together..."></h2>
+                <div id="gallery-grid" class="gallery-grid">
+                    <!-- Photos will be injected here via JS -->
+                </div>
+                <button class="next-btn" onclick="goToSection('final-promise')">Our Future Together ❤️</button>
+            </div>
+            <div id="gallery-particles"></div>
+        </section>
+
+        <!-- Final Promise Section -->
+        <section id="final-promise">
+            <div class="content">
+                <h1 class="magic-header">The Best is Yet to Come...</h1>
+                <p class="magic-subtext">Every memory we've shared is a treasure, and every moment ahead is a promise.
+                </p>
+                <div class="final-love-note glass">
+                    <p>Indhu, with you I have found a love that feels eternal. I promise to build a future filled with
+                        strength, warmth, and unwavering devotion. You are not just my love… you are my always.</p>
+                </div>
+                <button class="glow-btn" onclick="goToSection('final-revelation')">See here ❤️</button>
+            </div>
+        </section>
+
+        <!-- Final Revelation Section -->
+        <section id="final-revelation">
+            <div class="content">
+                <div class="revelation-card glass">
+                    <p id="revelation-text" class="typewriter-header"
+                        data-text="“Don’t just stand here… He’s been waiting — not for minutes, not for days — but with a heart that chose you every single time. While you’re reading this, he’s probably rehearsing your name in his mind… hoping your next word will be the one that changes his forever. Go to him. Because in his world, there has never been anyone else.” ❤️">
+                    </p>
+                </div>
+                <button class="next-btn" onclick="goToSection('opening')">Start Our Story Again ❤️</button>
             </div>
         </section>
     </main>
@@ -138,6 +278,11 @@
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Audio Elements -->
+    <audio id="bg-music-1" src="assets/audio1.mp3" loop prefetch="auto"></audio>
+    <audio id="bg-music-2" src="assets/audio2.mp3" loop prefetch="auto"></audio>
+
     <script src="script.js"></script>
 </body>
 
