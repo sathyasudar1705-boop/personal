@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
     <!-- Backgrounds -->
     <div id="stars-container"></div>
     <div id="particles-js"></div>
@@ -37,13 +38,11 @@
         <!-- Password Gate -->
         <section id="password-gate">
             <div class="content">
-                <div class="password-box glass">
-                    <h2 class="typewriter-header" data-text="A Secret Just for You..."></h2>
-                    <p>Enter our special code to continue...</p>
-                    <div class="input-group">
-                        <input type="password" id="password-input" placeholder="Enter password..." autocomplete="off">
-                        <button id="password-sub-btn" class="action-btn">Unlock ❤️</button>
-                    </div>
+                <div class="password-box">
+                    <h2 class="typewriter-header" data-text="Our Secret Code... ❤️"></h2>
+                    <p>Enter our special memory to unlock the magic ✨</p>
+                    <input type="password" id="password-input" placeholder="Our secret password..." autocomplete="off">
+                    <button id="password-sub-btn" class="glow-btn">Unlock Our World ❤️</button>
                     <div id="password-error" class="error-msg hidden"></div>
                     <div id="password-success" class="success-msg hidden"></div>
                 </div>
@@ -184,7 +183,74 @@
                     </div>
 
                     <div class="timeline-footer">
-                        <button class="glow-btn" onclick="goToSection('heart-game')">Catch My Heart ❤️</button>
+                        <button class="glow-btn" onclick="goToSection('quiz-game')">Guess Our moments ❤️</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4.5: Guess Our Moments Quiz -->
+        <section id="quiz-game">
+            <div id="quiz-particles"></div>
+            <div class="content">
+                <h2 id="quiz-title" class="typewriter-header"
+                    data-text="Let’s see how well you remember our love story, Indhu ❤️"></h2>
+
+                <div id="quiz-container" class="glass">
+                    <div id="quiz-progress-dots"></div>
+                    <div id="question-card">
+                        <h3 id="question-text"></h3>
+                        <div id="options-container"></div>
+                    </div>
+                    <div id="quiz-feedback" class="hidden"></div>
+                </div>
+
+                <div id="quiz-result-screen" class="glass hidden">
+                    <div class="result-emoji" id="result-emoji"></div>
+                    <h2 id="result-score"></h2>
+                    <p id="result-message"></p>
+                    <button id="quiz-next-btn" class="glow-btn" onclick="goToSection('puzzle-game')">Fix Our Memory
+                        ❤️</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4.6: Photo Puzzle Game -->
+        <section id="puzzle-game">
+            <div id="puzzle-particles"></div>
+            <div class="content">
+                <h2 id="puzzle-title" class="typewriter-header" data-text="Fix Our Beautiful Memory 🧩❤️"></h2>
+
+                <div id="puzzle-container" class="glass">
+                    <div class="puzzle-header">
+                        <div class="completion-bar">
+                            <div id="puzzle-progress" class="progress-fill"></div>
+                        </div>
+                        <span id="completion-text">Progress: 0%</span>
+                    </div>
+
+                    <div class="puzzle-area">
+                        <div id="puzzle-board" class="puzzle-board">
+                            <!-- Slots will be injected here -->
+                        </div>
+                        <div id="puzzle-pieces-bin" class="puzzle-pieces-bin">
+                            <!-- Pieces will be injected here -->
+                        </div>
+                    </div>
+
+                    <div class="puzzle-controls">
+                        <button class="glow-btn" onclick="initPuzzle()">Shuffle & Try Again 🎲</button>
+                    </div>
+                </div>
+
+                <div id="puzzle-victory" class="glass hidden">
+                    <div class="victory-card">
+                        <div class="victory-photo-frame">
+                            <img src="assets/IMG_20251122_174020.jpg" alt="Completed Memory">
+                        </div>
+                        <h2>Perfectly Fit! ❤️ 😍</h2>
+                        <p>“Every piece of my life fits perfectly with you 💕”</p>
+                        <button class="glow-btn" onclick="goToSection('heart-game')">Continue My Love ❤️</button>
                     </div>
                 </div>
             </div>
@@ -236,16 +302,19 @@
             </div>
         </section>
 
-        <!-- Memory Gallery Section -->
-        <section id="memory-gallery-section">
+        <!-- Polaroid Memory Wall -->
+        <section id="polaroid-wall-section">
+            <div id="polaroid-sparkles"></div>
+            <div id="polaroid-floaters"></div>
             <div class="content">
-                <h2 class="typewriter-header" data-text="Our Beautiful Journey Together..."></h2>
-                <div id="gallery-grid" class="gallery-grid">
-                    <!-- Photos will be injected here via JS -->
+                <h1 id="polaroid-title" class="handwritten-title">“Our Beautiful Memories, Indhu ❤️”</h1>
+                <p id="polaroid-subtitle" class="magic-subtext">Every photo here is a piece of my heart with you, Indhu
+                    ❤️</p>
+                <div id="polaroid-container" class="polaroid-wall-area">
+                    <!-- Polaroids will be injected here via JS -->
                 </div>
                 <button class="next-btn" onclick="goToSection('final-promise')">Our Future Together ❤️</button>
             </div>
-            <div id="gallery-particles"></div>
         </section>
 
         <!-- Final Promise Section -->
