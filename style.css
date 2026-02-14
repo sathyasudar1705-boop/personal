@@ -21,6 +21,7 @@ body {
     color: var(--text);
     overflow: hidden;
     height: 100vh;
+    touch-action: manipulation;
 }
 
 /* Journey Header & Progress Bar */
@@ -148,6 +149,8 @@ section {
     transition: opacity 1s, visibility 1s;
     padding: 2rem;
     text-align: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 section.active {
@@ -1011,49 +1014,9 @@ section.active .letter-wrapper {
     }
 }
 
-/* Victory Card */
-#puzzle-victory {
-    max-width: 500px;
-    /* Reduced from 600px */
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 30px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-}
 
-.victory-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.victory-photo-frame {
-    width: 280px;
-    /* Adjusted size */
-    max-width: 80vw;
-    height: 280px;
-    margin-bottom: 1.5rem;
-    border: 5px solid #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px var(--accent-shadow);
-    animation: heartPulse 2.5s infinite ease-in-out;
-}
 
-.victory-photo-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-@media (max-width: 600px) {
-    .victory-photo-frame {
-        width: 200px;
-        height: 200px;
-    }
-}
 
 .polaroid-card .love-tag {
     position: absolute;
@@ -1087,26 +1050,91 @@ section.active .letter-wrapper {
 }
 
 /* Responsive Updates */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     #opening h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
-    .memory-grid {
-        grid-template-columns: repeat(1, 1fr);
+    .glow-btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+
+    .content {
         padding: 1rem;
     }
 
+    /* Timeline Mobile */
+    .timeline-line {
+        left: 30px;
+    }
+
+    .timeline-moment {
+        margin-bottom: 50px;
+    }
+
+    .moment-heart {
+        left: 30px;
+        transform: none;
+    }
+
+    .moment-card {
+        width: calc(100% - 60px);
+        margin-left: 60px !important;
+        padding: 1.5rem;
+    }
+
+    .moment-card h3 {
+        font-size: 1.6rem;
+    }
+
+    /* Password Gate Mobile */
+    .password-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .password-box h2 {
+        font-size: 2.2rem;
+    }
+
+    /* Magic Moments Mobile */
+    .magic-header {
+        font-size: 2.2rem;
+    }
+
+    #coffee-msg-box {
+        padding: 1.5rem;
+        min-height: 120px;
+    }
+
+    #coffee-msg {
+        font-size: 1.8rem;
+    }
+
+    /* Game Arena Mobile */
     #heart-game-arena {
         height: 350px;
+        margin: 1rem 0;
     }
 
-    .reason {
-        font-size: 1.1rem;
+    /* Polaroid Mobile Scaling */
+    .polaroid-card {
+        width: 160px;
+        padding: 8px 8px 30px 8px;
     }
 
+    .polaroid-card img {
+        height: 140px;
+    }
+
+    /* Final Screens Mobile */
     .letter-wrapper {
         padding: 1.5rem;
+    }
+
+    .revelation-card {
+        padding: 1.5rem;
+        font-size: 1.4rem;
     }
 }
 
@@ -1361,144 +1389,7 @@ section.active .letter-wrapper {
     z-index: 0;
 }
 
-/* --- Photo Puzzle Game --- */
-#puzzle-game {
-    background: radial-gradient(circle at center, #1a0b2e 0%, #050510 100%);
-}
 
-#puzzle-container {
-    max-width: 950px;
-    margin: 1rem auto;
-    padding: 2rem;
-    border-radius: 20px;
-}
-
-.puzzle-area {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-}
-
-.puzzle-board {
-    display: grid;
-    grid-template-columns: repeat(3, 150px);
-    grid-template-rows: repeat(3, 150px);
-    gap: 0;
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.puzzle-slot {
-    width: 150px;
-    height: 150px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Shadow Guide */
-.puzzle-slot::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url('assets/IMG_20251122_174020.jpg');
-    background-size: 450px 450px;
-    background-position: var(--sx) var(--sy);
-    opacity: 0.15;
-    /* Guide visibility */
-    pointer-events: none;
-}
-
-.puzzle-slot.highlight {
-    background: rgba(255, 77, 109, 0.2);
-}
-
-.puzzle-pieces-bin {
-    width: 330px;
-    min-height: 460px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-content: flex-start;
-}
-
-.puzzle-piece {
-    width: 150px;
-    height: 150px;
-    background-image: url('assets/IMG_20251122_174020.jpg');
-    background-size: 450px 450px;
-    background-position: var(--px) var(--py);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    cursor: grab;
-    border-radius: 2px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s;
-    user-select: none;
-}
-
-.puzzle-piece:active {
-    cursor: grabbing;
-    transform: scale(1.05);
-    z-index: 1000;
-}
-
-.puzzle-piece.placed {
-    width: 100%;
-    height: 100%;
-    border: none;
-    box-shadow: none;
-    pointer-events: none;
-    animation: snapIn 0.3s ease-out;
-}
-
-@keyframes snapIn {
-    0% {
-        transform: scale(1.2);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@media (max-width: 800px) {
-    .puzzle-board {
-        grid-template-columns: repeat(3, 100px);
-        grid-template-rows: repeat(3, 100px);
-    }
-
-    .puzzle-slot,
-    .puzzle-piece {
-        width: 100px;
-        height: 100px;
-    }
-
-    .puzzle-slot::before,
-    .puzzle-piece {
-        background-size: 300px 300px;
-    }
-
-    .puzzle-pieces-bin {
-        width: 100%;
-        min-height: auto;
-        justify-content: center;
-    }
-}
 
 /* Final Promise Section */
 #final-promise {

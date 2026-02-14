@@ -22,7 +22,7 @@ function goToSection(sectionId) {
             case 'final-promise': triggerTypewriter('final-promise h1'); break;
             case 'memory-timeline': initTimeline(); break;
             case 'quiz-game': initQuiz(); break;
-            case 'puzzle-game': initPuzzle(); break;
+
             case 'final-revelation': triggerTypewriter('revelation-text'); break;
         }
     }
@@ -351,105 +351,7 @@ function showQuizResults() {
     }
 }
 
-// 5.5 Photo Puzzle Game (Rebuilt for Clarity)
-function initPuzzle() {
-    const board = document.getElementById('puzzle-board');
-    const bin = document.getElementById('puzzle-pieces-bin');
-    const progress = document.getElementById('puzzle-progress');
-    const compText = document.getElementById('completion-text');
-    const victory = document.getElementById('puzzle-victory');
-    const container = document.getElementById('puzzle-container');
 
-    board.innerHTML = '';
-    bin.innerHTML = '';
-    progress.style.width = '0%';
-    compText.innerText = 'Progress: 0%';
-    victory.classList.add('hidden');
-    container.classList.remove('hidden');
-
-    triggerTypewriter('puzzle-title');
-
-    const isMobile = window.innerWidth <= 800;
-    const SIZE = isMobile ? 100 : 150;
-    const TOTAL = 9;
-    let placed = 0;
-
-    const pieces = [];
-
-    for (let i = 0; i < TOTAL; i++) {
-        const row = Math.floor(i / 3);
-        const col = i % 3;
-        const xPos = -col * SIZE;
-        const yPos = -row * SIZE;
-
-        // Create Slot
-        const slot = document.createElement('div');
-        slot.className = 'puzzle-slot';
-        slot.style.setProperty('--sx', `${xPos}px`);
-        slot.style.setProperty('--sy', `${yPos}px`);
-        slot.dataset.index = i;
-        board.appendChild(slot);
-
-        // Create Piece
-        const piece = document.createElement('div');
-        piece.className = 'puzzle-piece';
-        piece.dataset.index = i;
-        piece.style.setProperty('--px', `${xPos}px`);
-        piece.style.setProperty('--py', `${yPos}px`);
-
-        piece.draggable = true;
-        piece.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', i);
-            piece.style.opacity = '0.5';
-        });
-        piece.addEventListener('dragend', () => piece.style.opacity = '1');
-
-        pieces.push(piece);
-    }
-
-    // Shuffle and put in bin
-    pieces.sort(() => Math.random() - 0.5).forEach(p => bin.appendChild(p));
-
-    // Slots Events
-    board.querySelectorAll('.puzzle-slot').forEach(slot => {
-        slot.addEventListener('dragover', e => {
-            e.preventDefault();
-            slot.classList.add('highlight');
-        });
-        slot.addEventListener('dragleave', () => slot.classList.remove('highlight'));
-        slot.addEventListener('drop', e => {
-            e.preventDefault();
-            slot.classList.remove('highlight');
-            const pIdx = e.dataTransfer.getData('text/plain');
-
-            if (pIdx == slot.dataset.index) {
-                const targetPiece = document.querySelector(`.puzzle-piece[data-index="${pIdx}"]`);
-                slot.appendChild(targetPiece);
-                targetPiece.classList.add('placed');
-                targetPiece.draggable = false;
-
-                placed++;
-                const percent = Math.round((placed / TOTAL) * 100);
-                progress.style.width = percent + '%';
-                compText.innerText = `Progress: ${percent}%`;
-
-                triggerSparkles(e.clientX, e.clientY, 8);
-
-                if (placed === TOTAL) {
-                    setTimeout(() => {
-                        container.classList.add('hidden');
-                        victory.classList.remove('hidden');
-                        triggerFireworks();
-                    }, 800);
-                }
-            } else {
-                // Flash red for mistake
-                slot.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
-                setTimeout(() => slot.style.backgroundColor = '', 300);
-            }
-        });
-    });
-}
 let caughtCount = 0;
 function initHeartGame() {
     const arena = document.getElementById('heart-game-arena');
@@ -630,10 +532,12 @@ function initPolaroidWall() {
         const card = document.createElement('div');
         card.className = 'polaroid-card anti-gravity-float';
 
-        // Random placement within safe area
+        // Random placement within safe area - Responsive
+        const cardWidth = window.innerWidth <= 768 ? 160 : 250;
+        const cardHeight = window.innerWidth <= 768 ? 200 : 300;
         const rect = container.getBoundingClientRect();
-        const startX = Math.random() * (rect.width - 250);
-        const startY = Math.random() * (rect.height - 300);
+        const startX = Math.random() * (rect.width - cardWidth);
+        const startY = Math.random() * (rect.height - cardHeight);
         const rot = (Math.random() * 10 - 5).toFixed(2);
         const delay = (Math.random() * 2).toFixed(2);
         const duration = (5 + Math.random() * 3).toFixed(2);
