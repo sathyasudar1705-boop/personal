@@ -128,7 +128,7 @@ function checkPassword() {
     const error = document.getElementById('password-error');
     const success = document.getElementById('password-success');
 
-    if (input === 'S-love-I') {
+    if (input === 'Sathya#123') {
         error.classList.add('hidden');
         success.classList.remove('hidden');
         success.innerText = 'Welcome my soulmate... Opening our world. ❤️';
