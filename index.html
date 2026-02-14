@@ -268,13 +268,24 @@
             <div id="polaroid-sparkles"></div>
             <div id="polaroid-floaters"></div>
             <div class="content">
-                <h1 id="polaroid-title" class="handwritten-title">“Our Beautiful Memories, Indhu ❤️”</h1>
-                <p id="polaroid-subtitle" class="magic-subtext">Every photo here is a piece of my heart with you, Indhu
-                    ❤️</p>
+                <h1 id="polaroid-title" class="handwritten-title">“Our Beautiful Memories 📸❤️”</h1>
+                <p id="polaroid-subtitle" class="magic-subtext">Swipe to relive our moments...</p>
+
                 <div id="polaroid-container" class="polaroid-wall-area">
                     <!-- Polaroids will be injected here via JS -->
                 </div>
-                <button class="next-btn" onclick="goToSection('final-promise')">Our Future Together ❤️</button>
+
+                <!-- Mobile Navigation Controls -->
+                <div id="polaroid-nav" class="mobile-nav hidden">
+                    <button id="prev-btn" class="nav-arrow" aria-label="Previous Memory"><i
+                            class="fas fa-arrow-left"></i></button>
+                    <button id="next-btn" class="nav-arrow" aria-label="Next Memory">Next Memory <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <div class="navigation-footer">
+                    <button class="next-btn" onclick="goToSection('final-promise')">Our Future Together ❤️</button>
+                </div>
             </div>
         </section>
 

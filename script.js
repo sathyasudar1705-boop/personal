@@ -518,23 +518,42 @@ const LOVE_MESSAGES = [
     "With you, I'm home. 🏠💕"
 ];
 
+let currentPolaroidIndex = 0;
+let polaroidImagesData = [];
+
 function initPolaroidWall() {
     const container = document.getElementById('polaroid-container');
     const title = document.getElementById('polaroid-title');
+    const nav = document.getElementById('polaroid-nav');
     container.innerHTML = '';
+    polaroidImagesData = [...ASSET_IMAGES]; // Keep a copy of the data
 
     // Title typewriter
-    const originalText = title.innerText;
     title.innerText = '';
-    typeWriter(title, originalText, 50);
+    typeWriter(title, title.getAttribute('data-text') || "“Our Beautiful Memories 📸❤️”", 50);
 
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        nav.classList.remove('hidden');
+        renderMobileSlider();
+        initSwipeGestures();
+    } else {
+        nav.classList.add('hidden');
+        renderDesktopWall();
+    }
+
+    triggerWallParticles();
+}
+
+function renderDesktopWall() {
+    const container = document.getElementById('polaroid-container');
     ASSET_IMAGES.forEach((data, index) => {
         const card = document.createElement('div');
         card.className = 'polaroid-card anti-gravity-float';
 
-        // Random placement within safe area - Responsive
-        const cardWidth = window.innerWidth <= 768 ? 160 : 250;
-        const cardHeight = window.innerWidth <= 768 ? 200 : 300;
+        const cardWidth = 250;
+        const cardHeight = 300;
         const rect = container.getBoundingClientRect();
         const startX = Math.random() * (rect.width - cardWidth);
         const startY = Math.random() * (rect.height - cardHeight);
@@ -557,47 +576,143 @@ function initPolaroidWall() {
             <div class="love-tag">❤️</div>
         `;
 
-        // Interaction: Hover Sparkles
-        card.addEventListener('mouseenter', (e) => {
+        card.addEventListener('mouseenter', () => {
             card.hoverSparkles = setInterval(() => {
                 const rect = card.getBoundingClientRect();
                 const x = rect.left + Math.random() * rect.width;
                 const y = rect.top + Math.random() * rect.height;
-                triggerSparkles(x, y, 3); // 3 per burst on hover
+                triggerSparkles(x, y, 3);
             }, 200);
         });
 
-        card.addEventListener('mouseleave', () => {
-            clearInterval(card.hoverSparkles);
-        });
-
-        // Interaction: Click for message
+        card.addEventListener('mouseleave', () => clearInterval(card.hoverSparkles));
         card.addEventListener('click', (e) => {
             if (card.isDragging) return;
             const msg = LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
             showLoveMessage(msg, e.clientX, e.clientY);
             triggerSparkles(e.clientX, e.clientY, 15);
-
-            // Re-apply straightening on click
-            card.style.transform = 'scale(1.1) rotate(0deg)';
         });
 
-        // Initialize Drag
         makeDraggable(card);
+        container.appendChild(card);
+        setTimeout(() => card.classList.add('active'), index * 200);
+    });
+}
 
-        // Staggered Entry
-        card.style.opacity = '0';
-        card.style.transform = `rotate(${rot}deg) scale(0.5)`;
-        setTimeout(() => {
-            container.appendChild(card);
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = `rotate(${rot}deg) scale(1)`;
-            }, 50);
-        }, index * 300);
+function renderMobileSlider() {
+    const container = document.getElementById('polaroid-container');
+    container.innerHTML = '';
+    currentPolaroidIndex = 0;
+
+    ASSET_IMAGES.forEach((data, index) => {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card';
+        card.dataset.index = index;
+        card.innerHTML = `
+            <div class="polaroid-inner">
+                <img src="assets/${data.file}" alt="Memory">
+                <div class="polaroid-note">${data.note}</div>
+            </div>
+            <div class="love-tag">❤️</div>
+        `;
+
+        card.addEventListener('click', (e) => {
+            const msg = LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
+            const rect = card.getBoundingClientRect();
+            showLoveMessage(msg, rect.left + rect.width / 2, rect.top + rect.height / 2);
+            triggerSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 5);
+        });
+
+        container.appendChild(card);
     });
 
-    triggerWallParticles();
+    updateMobileCard();
+
+    document.getElementById('next-btn').onclick = nextMemory;
+    document.getElementById('prev-btn').onclick = prevMemory;
+}
+
+function updateMobileCard() {
+    const cards = document.querySelectorAll('.polaroid-card');
+    cards.forEach((card, i) => {
+        card.classList.remove('active');
+        card.style.display = 'none';
+        if (i === currentPolaroidIndex) {
+            card.style.display = 'block';
+            setTimeout(() => card.classList.add('active'), 50);
+        }
+    });
+
+    // Final Memory Special Effect
+    if (currentPolaroidIndex === ASSET_IMAGES.length - 1) {
+        setTimeout(triggerFinalMemoryEffect, 1000);
+    }
+}
+
+function nextMemory() {
+    if (currentPolaroidIndex < ASSET_IMAGES.length - 1) {
+        currentPolaroidIndex++;
+        updateMobileCard();
+    } else {
+        // Loop back or show final message? Current requirement says final memory triggers effect
+        currentPolaroidIndex = 0;
+        updateMobileCard();
+    }
+}
+
+function prevMemory() {
+    if (currentPolaroidIndex > 0) {
+        currentPolaroidIndex--;
+        updateMobileCard();
+    }
+}
+
+function triggerFinalMemoryEffect() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff4d6d', '#ffffff']
+    });
+
+    const msg = document.createElement('div');
+    msg.className = 'final-memory-msg glass';
+    msg.innerHTML = "<h3>Every memory with you is my favorite forever 💖</h3>";
+    msg.style.position = 'fixed';
+    msg.style.top = '50%';
+    msg.style.left = '50%';
+    msg.style.transform = 'translate(-50%, -50%) scale(0)';
+    msg.style.zIndex = '2000';
+    msg.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    document.body.appendChild(msg);
+
+    setTimeout(() => {
+        msg.style.transform = 'translate(-50%, -50%) scale(1)';
+        setTimeout(() => {
+            msg.style.opacity = '0';
+            setTimeout(() => msg.remove(), 500);
+        }, 3000);
+    }, 100);
+}
+
+function initSwipeGestures() {
+    let touchstartX = 0;
+    let touchendX = 0;
+    const container = document.getElementById('polaroid-container');
+
+    container.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    }, false);
+
+    container.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+        if (touchendX < touchstartX - 50) nextMemory();
+        if (touchendX > touchstartX + 50) prevMemory();
+    }
 }
 
 function showLoveMessage(msg, x, y) {
@@ -611,14 +726,18 @@ function showLoveMessage(msg, x, y) {
 }
 
 function triggerSparkles(x, y, count = 15) {
-    for (let i = 0; i < count; i++) {
+    const isMobile = window.innerWidth <= 768;
+    const finalCount = isMobile ? Math.ceil(count / 2) : count;
+
+    for (let i = 0; i < finalCount; i++) {
         const s = document.createElement('div');
         s.className = 'sparkle';
         s.innerHTML = '✨';
         s.style.left = `${x}px`;
         s.style.top = `${y}px`;
-        const tx = (Math.random() - 0.5) * 150;
-        const ty = (Math.random() - 0.5) * 150;
+        const scatter = isMobile ? 80 : 150;
+        const tx = (Math.random() - 0.5) * scatter;
+        const ty = (Math.random() - 0.5) * scatter;
         s.style.setProperty('--tx', `${tx}px`);
         s.style.setProperty('--ty', `${ty}px`);
         document.body.appendChild(s);
@@ -670,6 +789,9 @@ function makeDraggable(el) {
 function triggerWallParticles() {
     const container = document.getElementById('polaroid-floaters');
     container.innerHTML = '';
+    const isMobile = window.innerWidth <= 768;
+    const interval = isMobile ? 4000 : 2000;
+
     setInterval(() => {
         const p = document.createElement('div');
         p.className = 'magic-particle';
@@ -677,9 +799,9 @@ function triggerWallParticles() {
         p.style.left = Math.random() * 100 + 'vw';
         p.style.top = '100vh';
         p.style.opacity = '0.4';
-        const duration = Math.random() * 8 + 10;
+        const duration = isMobile ? (Math.random() * 5 + 15) : (Math.random() * 8 + 10);
         p.style.setProperty('--duration', duration + 's');
         container.appendChild(p);
         setTimeout(() => p.remove(), duration * 1000);
-    }, 2000);
+    }, interval);
 }
