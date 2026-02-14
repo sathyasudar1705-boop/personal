@@ -51,29 +51,36 @@
 
         <!-- Section 1: Bug Fixer -->
         <section id="bug-fixer">
-            <div class="content">
+            <div class="content bug-fixer-content">
                 <h2 class="typewriter-header"
                     data-text="“When life writes errors in my story, you are the one who rewrites it with love.” ❤️">
                 </h2>
-                <div class="code-editor glass">
-                    <div class="code-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span class="file-name">heart_debug.js</span>
-                    </div>
-                    <div class="code-content">
-                        <pre><code><span class="keyword">const</span> <span class="variable">status</span> = <span class="string">"Searching..."</span>;
+
+                <div class="code-editor-wrapper">
+                    <div class="code-editor glass">
+                        <div class="code-header">
+                            <div class="header-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="file-name">heart_debug.js</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code><span class="keyword">const</span> <span class="variable">status</span> = <span class="string">"Searching..."</span>;
 <span class="keyword">let</span> <span class="variable">happiness</span> = <span class="keyword">null</span>;
 
 <span class="comment">// Error: Missing Happiness</span>
 <span class="keyword">throw new</span> <span class="class">Error</span>(<span class="string">"Happiness not found!"</span>);</code></pre>
+                        </div>
                     </div>
                 </div>
+
                 <div class="interaction-area">
-                    <button id="fix-bug-btn" class="action-btn red">🐞 Fix Bug</button>
-                    <div id="bug-fixed-msg" class="hidden">
-                        <h3>Bug Fixed: Indhu Found ❤️</h3>
+                    <button id="fix-bug-btn" class="action-btn red pulse-animation">🐞 Fix My Heart</button>
+                    <div id="bug-fixed-msg" class="hidden glass message-card">
+                        <h3>✨ Bug Fixed: Indhu Found ❤️</h3>
+                        <p class="success-subtitle">Perfect Match Found in my life's code.</p>
                         <button class="next-btn" onclick="goToSection('coffee')">Continue the Journey...</button>
                     </div>
                 </div>

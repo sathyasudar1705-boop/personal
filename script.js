@@ -161,11 +161,22 @@ document.getElementById('fix-bug-btn').addEventListener('click', function () {
     this.classList.add('hidden');
     document.querySelector('.code-content code').innerHTML = `
 <span class="keyword">const</span> <span class="variable">status</span> = <span class="string">"Success!"</span>;
-<span class="keyword">let</span> <span class="variable">happiness</span> = <span class="keyword">"Indhu"</span>;
+<span class="keyword">let</span> <span class="variable">happiness</span> = <span class="string">"Indhu"</span>;
 <span class="comment">// Bug Fixed: Perfect Match Found</span>
 <span class="class">Console</span>.<span class="variable">log</span>(<span class="string">"Indhu Found ❤️"</span>);`;
-    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    setTimeout(() => document.getElementById('bug-fixed-msg').classList.remove('hidden'), 1000);
+
+    confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+        colors: ['#ff4757', '#ffffff', '#ffbd2e']
+    });
+
+    setTimeout(() => {
+        const msg = document.getElementById('bug-fixed-msg');
+        msg.classList.remove('hidden');
+        msg.classList.add('slide-up');
+    }, 800);
 });
 
 // 2.5 Dreamy Anti-Gravity Scene - REMOVED
