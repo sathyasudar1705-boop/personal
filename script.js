@@ -518,172 +518,78 @@ const LOVE_MESSAGES = [
     "With you, I'm home. 🏠💕"
 ];
 
-let currentPolaroidIndex = 0;
-let polaroidImagesData = [];
-
 function initPolaroidWall() {
     const container = document.getElementById('polaroid-container');
     const title = document.getElementById('polaroid-title');
-    const nav = document.getElementById('polaroid-nav');
     container.innerHTML = '';
-    polaroidImagesData = [...ASSET_IMAGES]; // Keep a copy of the data
 
     // Title typewriter
     title.innerText = '';
     typeWriter(title, title.getAttribute('data-text') || "“Our Beautiful Memories 📸❤️”", 50);
 
-    const isMobile = window.innerWidth <= 768;
-
-    if (isMobile) {
-        nav.classList.remove('hidden');
-        renderMobileSlider();
-        initSwipeGestures();
-    } else {
-        nav.classList.add('hidden');
-        renderDesktopWall();
-    }
-
-    triggerWallParticles();
-}
-
-function renderDesktopWall() {
-    const container = document.getElementById('polaroid-container');
-    ASSET_IMAGES.forEach((data, index) => {
-        const card = document.createElement('div');
-        card.className = 'polaroid-card anti-gravity-float';
-
-        const cardWidth = 250;
-        const cardHeight = 300;
-        const rect = container.getBoundingClientRect();
-        const startX = Math.random() * (rect.width - cardWidth);
-        const startY = Math.random() * (rect.height - cardHeight);
-        const rot = (Math.random() * 10 - 5).toFixed(2);
-        const delay = (Math.random() * 2).toFixed(2);
-        const duration = (5 + Math.random() * 3).toFixed(2);
-
-        card.style.left = `${startX}px`;
-        card.style.top = `${startY}px`;
-        card.style.setProperty('--rot', `${rot}deg`);
-        card.style.setProperty('--delay', `${delay}s`);
-        card.style.setProperty('--duration', `${duration}s`);
-        card.style.animationDelay = `${delay}s`;
-
-        card.innerHTML = `
-            <div class="polaroid-inner">
-                <img src="assets/${data.file}" alt="Memory">
-                <div class="polaroid-note">${data.note}</div>
-            </div>
-            <div class="love-tag">❤️</div>
-        `;
-
-        card.addEventListener('mouseenter', () => {
-            card.hoverSparkles = setInterval(() => {
-                const rect = card.getBoundingClientRect();
-                const x = rect.left + Math.random() * rect.width;
-                const y = rect.top + Math.random() * rect.height;
-                triggerSparkles(x, y, 3);
-            }, 200);
-        });
-
-        card.addEventListener('mouseleave', () => clearInterval(card.hoverSparkles));
-        card.addEventListener('click', (e) => {
-            if (card.isDragging) return;
-            const msg = LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
-            showLoveMessage(msg, e.clientX, e.clientY);
-            triggerSparkles(e.clientX, e.clientY, 15);
-        });
-
-        makeDraggable(card);
-        container.appendChild(card);
-        setTimeout(() => card.classList.add('active'), index * 200);
-    });
-}
-
-function renderMobileSlider() {
-    const container = document.getElementById('polaroid-container');
-    container.innerHTML = '';
-    currentPolaroidIndex = 0;
-
+    // Create cards
     ASSET_IMAGES.forEach((data, index) => {
         const card = document.createElement('div');
         card.className = 'polaroid-card';
-        card.dataset.index = index;
+        // Alternate tilt for aesthetic
+        const tilt = (index % 2 === 0 ? 2 : -2);
+        card.style.setProperty('--tilt', `${tilt}deg`);
+
         card.innerHTML = `
             <div class="polaroid-inner">
-                <img src="assets/${data.file}" alt="Memory">
-                <div class="polaroid-note">${data.note}</div>
+                <img src="assets/${data.file}" alt="Memory" loading="lazy">
             </div>
-            <div class="love-tag">❤️</div>
+            <div class="polaroid-caption">${data.note}</div>
         `;
 
+        // Interaction: Click for message
         card.addEventListener('click', (e) => {
             const msg = LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
             const rect = card.getBoundingClientRect();
             showLoveMessage(msg, rect.left + rect.width / 2, rect.top + rect.height / 2);
-            triggerSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 5);
+            triggerSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 8);
         });
 
         container.appendChild(card);
     });
 
-    updateMobileCard();
+    // Intersection Observer for Reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
 
-    document.getElementById('next-btn').onclick = nextMemory;
-    document.getElementById('prev-btn').onclick = prevMemory;
-}
+                // If it's the last card, trigger heart explosion
+                const allCards = document.querySelectorAll('.polaroid-card');
+                if (entry.target === allCards[allCards.length - 1]) {
+                    setTimeout(triggerFinalMemoryEffect, 800);
+                }
+            }
+        });
+    }, { threshold: 0.2 });
 
-function updateMobileCard() {
-    const cards = document.querySelectorAll('.polaroid-card');
-    cards.forEach((card, i) => {
-        card.classList.remove('active');
-        card.style.display = 'none';
-        if (i === currentPolaroidIndex) {
-            card.style.display = 'block';
-            setTimeout(() => card.classList.add('active'), 50);
-        }
-    });
+    document.querySelectorAll('.polaroid-card').forEach(card => observer.observe(card));
 
-    // Final Memory Special Effect
-    if (currentPolaroidIndex === ASSET_IMAGES.length - 1) {
-        setTimeout(triggerFinalMemoryEffect, 1000);
-    }
-}
-
-function nextMemory() {
-    if (currentPolaroidIndex < ASSET_IMAGES.length - 1) {
-        currentPolaroidIndex++;
-        updateMobileCard();
-    } else {
-        // Loop back or show final message? Current requirement says final memory triggers effect
-        currentPolaroidIndex = 0;
-        updateMobileCard();
-    }
-}
-
-function prevMemory() {
-    if (currentPolaroidIndex > 0) {
-        currentPolaroidIndex--;
-        updateMobileCard();
-    }
+    triggerWallParticles();
 }
 
 function triggerFinalMemoryEffect() {
     confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 150,
+        spread: 100,
         origin: { y: 0.6 },
-        colors: ['#ff4d6d', '#ffffff']
+        colors: ['#ff4d6d', '#ffffff', '#ffeb3b']
     });
 
     const msg = document.createElement('div');
-    msg.className = 'final-memory-msg glass';
-    msg.innerHTML = "<h3>Every memory with you is my favorite forever 💖</h3>";
+    msg.className = 'final-memory-msg';
+    msg.innerHTML = "<h3>Every memory with you is my forever favorite 💖</h3>";
     msg.style.position = 'fixed';
     msg.style.top = '50%';
     msg.style.left = '50%';
     msg.style.transform = 'translate(-50%, -50%) scale(0)';
-    msg.style.zIndex = '2000';
-    msg.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    msg.style.zIndex = '2100';
+    msg.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     document.body.appendChild(msg);
 
     setTimeout(() => {
@@ -691,28 +597,29 @@ function triggerFinalMemoryEffect() {
         setTimeout(() => {
             msg.style.opacity = '0';
             setTimeout(() => msg.remove(), 500);
-        }, 3000);
+        }, 3500);
     }, 100);
 }
 
-function initSwipeGestures() {
-    let touchstartX = 0;
-    let touchendX = 0;
-    const container = document.getElementById('polaroid-container');
+function triggerWallParticles() {
+    const container = document.getElementById('polaroid-floaters');
+    container.innerHTML = '';
+    const isMobile = window.innerWidth <= 768;
+    // Reduce particle count by 70% as requested
+    const frequency = isMobile ? 6000 : 3000;
 
-    container.addEventListener('touchstart', e => {
-        touchstartX = e.changedTouches[0].screenX;
-    }, false);
-
-    container.addEventListener('touchend', e => {
-        touchendX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, false);
-
-    function handleSwipe() {
-        if (touchendX < touchstartX - 50) nextMemory();
-        if (touchendX > touchstartX + 50) prevMemory();
-    }
+    setInterval(() => {
+        const p = document.createElement('div');
+        p.className = 'magic-particle';
+        p.innerHTML = Math.random() > 0.5 ? '❤️' : '🌸';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.top = '100vh';
+        p.style.opacity = '0.3';
+        const duration = isMobile ? (Math.random() * 10 + 20) : (Math.random() * 8 + 15);
+        p.style.setProperty('--duration', duration + 's');
+        container.appendChild(p);
+        setTimeout(() => p.remove(), duration * 1000);
+    }, frequency);
 }
 
 function showLoveMessage(msg, x, y) {
@@ -745,46 +652,6 @@ function triggerSparkles(x, y, count = 15) {
     }
 }
 
-function makeDraggable(el) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    el.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        el.isDragging = false;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-        el.classList.add('dragging');
-        el.classList.remove('anti-gravity-float');
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        el.isDragging = true;
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        el.style.top = (el.offsetTop - pos2) + "px";
-        el.style.left = (el.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-        el.classList.remove('dragging');
-        el.classList.add('anti-gravity-float');
-        el.style.transform = ''; // Return to random rot or straightened state? 
-        // Hover CSS will handle straightening, but inline transform might override.
-        // Let's clear inline to let CSS take over.
-        el.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        setTimeout(() => el.style.transition = '', 500);
-    }
-}
 
 function triggerWallParticles() {
     const container = document.getElementById('polaroid-floaters');
