@@ -24,6 +24,10 @@ function goToSection(sectionId) {
             case 'quiz-game': initQuiz(); break;
 
             case 'final-revelation': triggerTypewriter('revelation-text'); break;
+            case 'valentine-finale':
+                triggerTypewriter('valentine-finale h1');
+                setTimeout(() => triggerTypewriter('valentine-finale p'), 2000);
+                break;
         }
     }
 }
